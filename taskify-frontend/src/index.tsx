@@ -7,7 +7,8 @@ import TasksView from './views/TasksView';
 import TeamsView from './views/TeamsView';
 import TeamView from './views/TeamView';
 import CreateTeamView from './views/CreateTeamView';
-
+import Register from "./views/Register";
+import Login from "./views/Login";
 import {
   BrowserRouter,
   Routes,
@@ -23,6 +24,8 @@ ReactDOM.render(
       <Route path="/teams" element={<TeamsView />} />
       <Route path="/team" element={<TeamView />} />
       <Route path="/createTeam" element={<CreateTeamView />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
