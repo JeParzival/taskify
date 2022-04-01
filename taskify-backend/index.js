@@ -6,8 +6,9 @@ const config = require("./config");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const user = require("./models/user");
-const team = require("./models/team");
+const UserModel = require("./models/UserModel");
+const MeRouter = require("./router/MeRouter");
+const TeamsRouter = require("./router/TeamsRouter");
 
 const app = express();
 
@@ -26,9 +27,9 @@ app.use(async (req, res, next) => {
 
     let base64 = tokens[1];
     let raw = Buffer.from(base64, "base64").toString("utf-8");
-    let [email, passwordHash] = raw.split(":");
 
-    let data = await user.findOne({ email: email, passwordHash: passwordHash });
+    let [email, passwordHash] = raw.split(":");
+    let data = await UserModel.findOne({ email: email, passwordHash: passwordHash });
     if (data) {
         req.user = data._id;
     }
@@ -36,6 +37,17 @@ app.use(async (req, res, next) => {
     next();
 });
 
+app.get("/login", async (req, res) => {
+    if (req.user) {
+        let user = await UserModel.findById(req.user);
+
+        return res.status(200).json({ ...user?.toJSON() });
+    }
+
+    return res.status(401).send("Not logged in");
+});
+
+// kayıt olma
 app.post("/register", async (req, res) => {
     if (req.user) {
         return res.status(401).send("Already logged in");
@@ -47,58 +59,21 @@ app.post("/register", async (req, res) => {
         return res.status(400).send("Missing email or password");
     }
 
-    let flag = await user.exists({ email: email });
+    let flag = await UserModel.exists({ email: email });
     if (flag) {
         return res.status(400).send("Email already exists");
     }
 
-    let data = await user.create({ email: email, passwordHash: passwordHash });
+    let data = await UserModel.create({ email: email, passwordHash: passwordHash });
 
-    res.json(data?.toJSON());
+    return res.json(data?.toJSON());
 });
 
-app.post("/create/team", async (req, res) => {
-    if (!req.user) {
-        return res.status(401).send("Not logged in");
-    }
+app.use("/me", MeRouter);
+app.use('/teams', TeamsRouter);
 
-    let { name, icon } = req.body;
-
-    if (!name) {
-        return res.status(400).send("Missing name");
-    }
-
-    let flag = await team.exists({ name: name });
-    if (flag) {
-        return res.status(400).send("Team name already exists");
-    }
-
-    let data = await team.create({ name: name, owner: req.user, icon: icon });
-
-    res.json(data?.toJSON());
-});
-
-app.get("/my/tasks", async (req, res) => {
-    if (!req.user) {
-        return res.status(401).send("Not logged in");
-    }
-
-    let data = await user.findById(req.user, {
-        tasks: 1
-    });
-
-    res.json(data?.tasks);
-});
-
-app.get("/my/teams", async (req, res) => {
-    if (!req.user) {
-        return res.status(401).send("Not logged in");
-    }
-
-    let data = await team.find({ "members.user": req.user });
-    let json = data?.toJSON();
-
-    return res.json(json);
+app.all("*", async (req, res) => {
+    return res.status(404).send("Not found");
 });
 
 mongoose.connection.on("connected", () => {
