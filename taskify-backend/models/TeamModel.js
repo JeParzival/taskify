@@ -1,11 +1,5 @@
 const mongoose = require("mongoose");
 
-const Permissions = {
-    OWNER: 0,
-    ADMIN: 1,
-    MEMBER: 2,
-};
-
 const TeamMemberSchema = new mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId,
@@ -13,13 +7,9 @@ const TeamMemberSchema = new mongoose.Schema({
     },
 
     tasks: {
-        type: mongoose.Types.ObjectId,
-        ref: "task"
-    },
-
-    permission: {
-        type: Number,
-        default: Permissions.MEMBER
+        type: [mongoose.Types.ObjectId],
+        ref: "task",
+        default: []
     }
 });
 
@@ -37,6 +27,11 @@ const TeamSchema = new mongoose.Schema({
 
     members: {
         type: [TeamMemberSchema],
+        default: []
+    },
+
+    tasks: {
+        type: Array,
         default: []
     },
 

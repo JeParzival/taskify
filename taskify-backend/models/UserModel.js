@@ -1,16 +1,12 @@
 const mongoose = require("mongoose");
 
-const InviteSchema = new mongoose.Schema({
-    teamId: {
+const UserSettingsSchema = new mongoose.Schema({
+    fullName: String,
+    featuredTeam: {
         type: mongoose.Types.ObjectId,
-        required: true
+        ref: "team"
     },
-
-    inviter: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-        ref: "user"
-    }
+    title: String
 });
 
 const UserSchema = new mongoose.Schema({
@@ -32,8 +28,14 @@ const UserSchema = new mongoose.Schema({
         default: []
     },
     invites: {
-        type: [InviteSchema],
+        type: [mongoose.Types.ObjectId],
+        ref: "team",
         default: []
+    },
+
+    settings: {
+        type: UserSettingsSchema,
+        default: {}
     }
 }, { timestamps: true });
 
