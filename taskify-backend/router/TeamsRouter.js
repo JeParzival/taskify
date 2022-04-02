@@ -66,6 +66,36 @@ TeamsRouter.get("/:id/tasks", async (req, res) => {
     return res.json(data);
 });
 
+// genel takım görevlerini güncelleme
+TeamsRouter.patch("/:id/tasks", async (req, res) => {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).send("Invalid id");
+    }
+
+    if (!req.user) {
+        return res.status(401).send("Not logged in");
+    }
+
+    let id = mongoose.Types.ObjectId(req.params.id);
+
+    let { tasks } = req.body;
+    if (!tasks) {
+        return res.status(400).send("Missing tasks");
+    }
+
+    let isAuthor = await TeamModel.exists({ owner: req.user, _id: teamId });
+    if (!isAuthor) {
+        return res.status(400).send("Not authorized");
+    }
+
+    let data = await TeamModel.updateOne({ teamId: id }, { $set: { tasks: tasks } });
+    if (!data) {
+        return res.status(404).send("Team not found or you are not a member");
+    }
+
+    return res.json(data);
+});
+
 // takıma davet etme
 TeamsRouter.post("/:id/invite", async (req, res) => {
     if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
