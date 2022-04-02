@@ -1,4 +1,3 @@
-import sha256 from "sha256";
 import ApiInstance from "..";
 
 export default class TeamEndpoint {

@@ -1,11 +1,10 @@
-import sha256 from "sha256";
 import ApiInstance from "..";
 
 export default class AuthEndpoint {
     public static async Register(email: string, password: string) {
         return ApiInstance.post("/register", {
             email: email,
-            passwordHash: sha256(password),
+            passwordHash: password,
         }).then(response => {
             return response
         }).catch((err) => {
@@ -16,10 +15,10 @@ export default class AuthEndpoint {
     }
 
     public static async Login(email: string, password: string) {
-        return ApiInstance.post("/register", {}, {
+        return ApiInstance.get("/login", {
             auth: {
                 username: email,
-                password: sha256(password)
+                password: password
             }
         }).then(response => {
             return response

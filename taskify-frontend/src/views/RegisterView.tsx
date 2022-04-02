@@ -1,4 +1,5 @@
 import { useState } from "react";
+import sha256 from "sha256";
 import swal from "sweetalert";
 import { useAuth } from "../components/auth";
 
@@ -9,6 +10,7 @@ function RegisterView() {
   let auth = useAuth();
 
   let PostResponse = (email: string, password: string) => auth.register(email, password);
+  let SetUser = auth.setUser;
 
   let MailHandler = (event: any) => {
     setMail(event.target.value)
@@ -42,15 +44,19 @@ function RegisterView() {
           if (!mail?.replaceAll(" ", "") || !passwordInput?.replaceAll(" ", "") || !mail || !passwordInput) return swal("Missing Parameter", "Please Fill All The Blanks", "error");
           else {
             try {
-              let response = await PostResponse(mail, passwordInput)
+              let response = await PostResponse(mail, sha256(passwordInput))
               if ((response as any).status != 200) {
                 return swal("Error", `Something Went Wrong - ${response.data}`, "error")
               }
 
               let data = response.data;
 
-              window.localStorage.setItem("mail", data.email)
-              window.localStorage.setItem("password", data.passwordHash)
+              window.localStorage.setItem("mail", data.email);
+              window.localStorage.setItem("password", data.passwordHash);
+
+              SetUser(data);
+
+              window.location.href = "/user";
             }
             catch (err: any) {
               swal("Error", "Something Went Wrong", "error")

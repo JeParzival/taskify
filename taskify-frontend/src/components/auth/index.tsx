@@ -6,6 +6,7 @@ export interface AuthContextType {
     login: (email: string, password: string) => Promise<AxiosResponse>;
     register: (email: string, password: string) => Promise<AxiosResponse>;
     logout(): void;
+    setUser(user: any): void;
 }
 
 export const AuthContext = React.createContext<AuthContextType>(null!);
