@@ -1,3 +1,3 @@
 module.exports = {
-    mongodb: "MONGO_DB_URL",
+    mongodb: "mongodb://localhost:27017/taskify",
 }
