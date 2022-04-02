@@ -19,6 +19,11 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@schemas/*": ["src/schemas/*"],
+      "@modules/*": ["src/modules/*"],
+      "@guards/*": ["src/guards/*"],
+      "@pipes/*": ["src/pipes/*"],
+      "@decorators/*": ["src/decorators/*"],
+      "@dto/*": ["src/dto/*"],
     }
   }
 }

@@ -1,15 +1,19 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { Task, TaskSchema } from "./Task.schema";
 
 export type UserDocument = User & Document;
 
 @Schema({ _id: false })
 export class Settings {
-    @Prop({ default: false })
-    darkMode: boolean;
+    @Prop({ type: String })
+    fullName: string;
 
-    @Prop({ default: false })
-    showNotifications: boolean;
+    @Prop({ type: String })
+    featuredTeam: string;
+
+    @Prop({ type: String })
+    title: string;
 }
 
 @Schema({ timestamps: true })
@@ -22,6 +26,9 @@ export class User {
 
     @Prop({ type: Settings, required: true, default: new Settings() })
     settings: Settings;
+
+    @Prop({ type: [TaskSchema], default: [], ref: 'Task' })
+    tasks: Task[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
