@@ -2,3 +2,4 @@ taskify-frontend/node_modules
 taskify-backend/node_modules
 taskify-frontend/yarn.lock
 taskify-backend/yarn.lock
+taskify-backend/dist
