@@ -1,6 +1,5 @@
 import CompletedTaskItem from "../components/tasks/CompletedTask";
 import TaskItem from "../components/tasks/Task";
-import TaskCreator from "../components/tasks/TaskCreator";
 
 function TeamView() {
     return <section className="h-screen w-screen flex items-center justify-center bg-primary">
