@@ -41,7 +41,7 @@ app.get("/login", async (req, res) => {
     if (req.user) {
         let user = await UserModel.findById(req.user);
 
-        return res.status(200).json({ ...user?.toJSON() });
+        return res.status(200).json(user?.toJSON());
     }
 
     return res.status(401).send("Not logged in");
