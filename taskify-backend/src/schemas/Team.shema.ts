@@ -14,6 +14,8 @@ export class TeamMember {
     tasks: []
 }
 
+export const TeamMemberSchema = SchemaFactory.createForClass(TeamMember);
+
 @Schema({ timestamps: true })
 export class Team {
     @Prop({ type: SchemaTypes.String, required: true })
@@ -22,11 +24,11 @@ export class Team {
     @Prop({ type: SchemaTypes.String, required: true, default: [] })
     description: string;
 
-    @Prop({ type: [TeamMember], required: true })
+    @Prop({ type: [TeamMemberSchema], required: true })
     members: TeamMember[];
 
     @Prop({ type: [TaskSchema], default: [], required: true, ref: 'Task' })
     tasks: Task[];
 }
 
-export const UserSchema = SchemaFactory.createForClass(Team);
+export const TeamSchema = SchemaFactory.createForClass(Team);
