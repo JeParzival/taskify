@@ -45,14 +45,14 @@ function RegisterView() {
           else {
             try {
               let response = await PostResponse(mail, sha256(passwordInput))
-              if ((response as any).status != 200) {
+              if ((response as any).status != 201) {
                 return swal("Error", `Something Went Wrong - ${response.data}`, "error")
               }
 
               let data = response.data;
 
-              window.localStorage.setItem("mail", data.email);
-              window.localStorage.setItem("password", data.passwordHash);
+              window.localStorage.setItem("email", data.email);
+              window.localStorage.setItem("password", data.password);
 
               SetUser(data);
 

@@ -1,4 +1,4 @@
-import CompletedTaskItem from "../components/tasks/CompletedTask";
+import CompletedTaskItem from "../components/tasks/ComplatedTask";
 import TaskItem from "../components/tasks/Task";
 
 function TeamView() {
@@ -24,9 +24,9 @@ function TeamView() {
                     <h1 className="w-full h-[4rem] text-[2rem] font-bold text-center text-title-2">Your Tasks</h1>
                     <div className="flex flex-col w-full h-full overflow-hidden">
                         {new Array(9).fill({ name: "DSADASD", checked: false }).map((task, index) => {
-                            if (task.checked) {
-                                return <CompletedTaskItem key={index} name={task.name} checked={task.checked} removeItem={console.log} completeItem={console.log} />
-                            } return <TaskItem key={index} name={task.name} checked={task.checked} removeItem={console.log} completeItem={console.log} />
+                            if (task.complated) {
+                                return <CompletedTaskItem key={index} content={task.content} complated={task.complated} removeItem={console.log} complateItem={console.log} />
+                            } return <TaskItem key={index} content={task.content} complated={task.complated} removeItem={console.log} complateItem={console.log} />
                         })}
                     </div>
                 </div>
@@ -36,8 +36,8 @@ function TeamView() {
                 <div className="flex flex-col w-full h-full overflow-hidden">
                     {new Array(9).fill({ name: "DSADASD", checked: false }).map((task, index) => {
                         if (task.checked) {
-                            return <CompletedTaskItem key={index} name={task.name} checked={task.checked} removeItem={console.log} completeItem={console.log} />
-                        } return <TaskItem key={index} name={task.name} checked={task.checked} removeItem={console.log} completeItem={console.log} />
+                            return <CompletedTaskItem key={index} content={task.name} complated={task.checked} removeItem={console.log} complateItem={console.log} />
+                        } return <TaskItem key={index} content={task.name} complated={task.checked} removeItem={console.log} complateItem={console.log} />
                     })}
                 </div>
             </div>

@@ -10,5 +10,5 @@ export class CreateTaskDto {
 
     @IsBoolean()
     @IsOptional()
-    completed: boolean = false;
+    complated: boolean = false;
 }

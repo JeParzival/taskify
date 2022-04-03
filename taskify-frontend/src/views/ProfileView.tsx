@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react"
+import { useAuth } from '../components/auth';
 
 function AbsoluteButton({ name, icon, customClass, path }: { name: string, icon: string, customClass: string, path: string }) {
     return <Link to={path}><button className={'absolute flex items-center justify-center hover:bg-opacity-80 font-bold w-[9.5rem] h-[3rem] rounded-xl shadow transition ' + customClass}>
@@ -12,6 +13,15 @@ function ProfileView() {
     let [name, setName] = useState<string>()
     let [featuredTitle, setFeaturedTitle] = useState<string>()
     let [title, setTitle] = useState<string>()
+
+    let user = useAuth();
+
+    useEffect(() => {
+        if (user.user?.settings?.fullName) setName(user.user.fullName);
+        if (user.user?.settings?.featuredTitle) setFeaturedTitle(user.user.featuredTitle);
+        if (user.user?.settings?.title) setTitle(user.user.title);
+    }, [])
+
 
     return (
         <section className="bg-primary h-screen w-screen flex items-center justify-center">

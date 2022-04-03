@@ -1,6 +1,6 @@
 import { TaskItemProps, TaskItemControlProps } from "./Types";
 
-function TaskItem({ name, completeItem, removeItem }: TaskItemProps & TaskItemControlProps) {
+function TaskItem({ content: name, complateItem: completeItem, removeItem }: TaskItemProps & TaskItemControlProps) {
     return <div className="fade-in group h-[3rem] bg-primary rounded-full px-4 py-2 flex items-center text-title-1 font-medium text-[1rem] mb-2">
         <div onClick={() => completeItem()}>
             <span className="iconify text-white mr-2 text-[#CC00FF] text-opacity-50 cursor-pointer" data-icon="akar-icons:circle" data-width="28" data-height="28"></span>

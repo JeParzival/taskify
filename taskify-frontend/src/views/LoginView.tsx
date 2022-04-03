@@ -52,8 +52,8 @@ function LoginView() {
 
               let data = response.data;
 
-              window.localStorage.setItem("mail", data.email);
-              window.localStorage.setItem("password", data.passwordHash);
+              window.localStorage.setItem("email", data.email);
+              window.localStorage.setItem("password", data.password);
 
               SetUser(data);
 

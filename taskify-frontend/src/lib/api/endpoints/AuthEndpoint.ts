@@ -4,7 +4,7 @@ export default class AuthEndpoint {
     public static async Register(email: string, password: string) {
         return ApiInstance.post("/register", {
             email: email,
-            passwordHash: password,
+            password: password,
         }).then(response => {
             return response
         }).catch((err) => {

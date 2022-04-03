@@ -1,5 +1,5 @@
 import { TaskDocument } from './../../schemas/Task.schema';
-import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose";
 
@@ -62,6 +62,19 @@ export class UserController {
     @UseGuards(AuthGuard)
     public async AddUserTask(@DUser() user: UserDocument, @Body() createTask: CreateTaskDto): Promise<boolean> {
         let updateResult = await this.userModel.updateOne({ _id: user._id }, { $push: { tasks: createTask } }, { new: true });
+
+        if (updateResult.modifiedCount > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Patch("/tasks/:task")
+    @UseGuards(AuthGuard)
+    public async ComplateUserTask(@DUser() user: UserDocument, @Param('task', ValidateObjectIdPipe) taskId: string): Promise<boolean> {
+        let updateResult = await this.userModel.updateOne({ _id: user._id, "tasks._id": taskId }, { $set: { "tasks.$.complated": true } }, { new: true });
 
         if (updateResult.modifiedCount > 0) {
             return true;

@@ -12,7 +12,7 @@ export class Task {
     expiresAt: Date;
 
     @Prop({ type: SchemaTypes.Boolean, required: true, default: false })
-    completed: boolean;
+    complated: boolean;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

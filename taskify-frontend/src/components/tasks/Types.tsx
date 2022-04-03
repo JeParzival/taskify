@@ -1,10 +1,11 @@
 export type TaskItemProps = {
-    expireDate?: Date,
-    name: string,
-    checked?: boolean,
+    _id?: string;
+    expiresAt?: Date,
+    content: string,
+    complated?: boolean,
 }
 
 export type TaskItemControlProps = {
     removeItem: () => void,
-    completeItem: () => void,
+    complateItem: () => void,
 }
