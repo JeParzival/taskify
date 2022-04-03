@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
 
     let base64 = authorization.split(' ')[1] || "";
     let [email, password] = Buffer.from(base64, 'base64').toString().split(':');
-    console.log(base64, email, password);
 
     if (!email || !password) {
       throw new UnauthorizedException();

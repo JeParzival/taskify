@@ -45,7 +45,7 @@ function Tasks() {
             }
         }).then((response) => {
             if (response.status == 201) {
-                setTasks([...tasks, task]);
+                setTasks(response.data);
             }
         })
     }

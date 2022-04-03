@@ -41,7 +41,6 @@ export class UserController {
     public async DeleteUserTask(@DUser() user: UserDocument, @Param('task', ValidateObjectIdPipe) taskId: string): Promise<Boolean> {
         let updateResult = await this.userModel.updateOne({ _id: user._id }, { $pull: { tasks: { _id: taskId } } });
 
-        console.log(updateResult);
         if (updateResult.modifiedCount > 0) {
             return true;
         }
@@ -60,15 +59,10 @@ export class UserController {
     // 💕
     @Post("/tasks")
     @UseGuards(AuthGuard)
-    public async AddUserTask(@DUser() user: UserDocument, @Body() createTask: CreateTaskDto): Promise<boolean> {
-        let updateResult = await this.userModel.updateOne({ _id: user._id }, { $push: { tasks: createTask } }, { new: true });
+    public async AddUserTask(@DUser() user: UserDocument, @Body() createTask: CreateTaskDto): Promise<any> {
+        let data = await this.userModel.findOneAndUpdate({ _id: user._id }, { $push: { tasks: createTask } }, { projection: { "tasks": 1 }, new: true });
 
-        if (updateResult.modifiedCount > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return data.tasks;
     }
 
     @Patch("/tasks/:task")
