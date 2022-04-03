@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { TaskDocument, TaskSchema } from "./Task.schema";
+import { Task, TaskDocument, TaskSchema } from "./Task.schema";
 
 export type UserDocument = User & Document;
 
@@ -27,7 +27,7 @@ export class User {
     @Prop({ type: Settings, required: true, default: new Settings() })
     settings: Settings;
 
-    @Prop({ type: [TaskSchema], default: [], ref: 'Task' })
+    @Prop({ type: [TaskSchema], default: [], ref: Task.name })
     tasks: TaskDocument[];
 }
 

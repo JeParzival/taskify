@@ -1,4 +1,4 @@
-import { UserDocument } from './User.schema';
+import { User, UserDocument, UserSchema } from './User.schema';
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, SchemaTypes } from "mongoose";
 import { Task, TaskSchema } from './Task.schema';
@@ -10,7 +10,7 @@ export class TeamMember {
     @Prop({ type: SchemaTypes.ObjectId, required: true })
     user: UserDocument;
 
-    @Prop({ type: [TaskSchema], default: [], ref: 'Task' })
+    @Prop({ type: [TaskSchema], default: [], ref: Task.name })
     tasks: []
 }
 
@@ -24,10 +24,13 @@ export class Team {
     @Prop({ type: SchemaTypes.String, required: true, default: [] })
     description: string;
 
-    @Prop({ type: [TeamMemberSchema], required: true })
+    @Prop({ type: SchemaTypes.ObjectId, ref: User.name, required: true })
+    owner: UserDocument;
+
+    @Prop({ type: [TeamMemberSchema], default: [], required: true })
     members: TeamMember[];
 
-    @Prop({ type: [TaskSchema], default: [], required: true, ref: 'Task' })
+    @Prop({ type: [TaskSchema], default: [], required: true, ref: Task.name })
     tasks: Task[];
 }
 

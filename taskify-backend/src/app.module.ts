@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 
 // modules
 import { UserModule } from '@modules/user/user.module';
+import { TeamModule } from '@modules/team/team.module';
+
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppService } from './app.service';
 import { User, UserSchema } from '@schemas/User.schema';
@@ -11,7 +13,8 @@ import { User, UserSchema } from '@schemas/User.schema';
   imports: [
     MongooseModule.forRoot("mongodb://localhost/taskify"),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    UserModule
+    UserModule,
+    TeamModule
   ],
   controllers: [AppController],
   providers: [AppService],
